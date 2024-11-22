@@ -1,0 +1,39 @@
+<div class="row bod">
+    <div class="col-3">
+        <div class="form-group bod">
+            <label for="category"> Category </label>
+                <select   id="category" class="form-control bod" [(ngModel)]="selectedCategory" (ngModelChange)="filter()" >
+                    <option value="">Category</option>
+                    <option *ngFor="let c of categories" [ngValue]="c" >{{c.name}}</option>
+    
+                </select>
+                
+        </div>
+         </div>
+    <div class="col-9">
+        <div class="row">
+            <ng-container *ngFor="let p of categorizedProducts; let i = index"  >
+                <div class="col">
+          
+                    <img class="card-img-top" alt="Card image cap" [src]="p?.imageUrl">
+                    <div class="card-body">
+                      <h4 class="card-title">{{p.title}}</h4>
+                      <p class="card-text">{{p.price | currency:'USD':"symbol" }}</p>
+                      <a href="" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                  </div>
+                  
+                  <div *ngIf="(i + 1) % 2 == 0" class="w-100"></div>
+               
+       
+            </ng-container>
+            
+            
+        </div>
+        
+    </div>
+      
+</div>
+
+
+

@@ -1,0 +1,8 @@
+<div *ngIf="!verified">
+    <form (ngSubmit)="verify()">
+    <label>Enter password to continue</label>
+    <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" required>
+    <button class="btn btn-primary">Verify</button>
+    <p *ngIf="message">{{message}}</p>
+</form>
+</div>

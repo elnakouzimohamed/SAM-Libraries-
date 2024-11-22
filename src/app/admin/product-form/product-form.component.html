@@ -1,0 +1,56 @@
+
+
+
+<form (ngSubmit)="add()" #productForm="ngForm" class="p-4 shadow-sm rounded bg-light">
+    <!-- Title Field -->
+    <div class="form-group mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input id="title" type="text" class="form-control" [(ngModel)]="product.title" name="title" required placeholder="Enter the product title">
+      <div *ngIf="productForm.submitted && !productForm.controls['title']?.valid" class="text-danger">
+        Title is required.
+      </div>
+    </div>
+  
+    <!-- Price Field -->
+    <div class="form-group mb-3">
+      <label for="price" class="form-label">Price</label>
+      <input id="price" type="number" class="form-control" [(ngModel)]="product.price" name="price" required placeholder="Enter the price">
+      <div *ngIf="productForm.submitted && !productForm.controls['price']?.valid" class="text-danger">
+        Price is required.
+      </div>
+    </div>
+  
+    <!-- Category Field -->
+    <div class="form-group mb-3">
+      <label for="category" class="form-label">Category</label>
+      <select id="category" class="form-control" [(ngModel)]="product.category" name="category" required>
+        <option value="" disabled selected>Select a category</option>
+        <option *ngFor="let c of categories" [value]="c.name">{{ c.name }}</option>
+      </select>
+      <div *ngIf="productForm.submitted && !productForm.controls['category']?.valid" class="text-danger">
+        Category is required.
+      </div>
+    </div>
+  
+    <!-- Image URL Field -->
+    <div class="form-group mb-3">
+      <label for="imageUrl" class="form-label">Image URL</label>
+      <input id="imageUrl" type="text" class="form-control" [(ngModel)]="product.imageUrl" name="imageUrl" required placeholder="Enter the image URL">
+      <div *ngIf="productForm.submitted && !productForm.controls['imageUrl']?.valid" class="text-danger">
+        Image URL is required.
+      </div>
+    </div>
+  
+    <!-- Save Button -->
+    <button type="submit" class="btn btn-primary w-100">Save</button>
+  </form>
+  <div *ngIf="product">{{product.title}}</div>
+  <div class="col-md-6">
+    <div class="card" style="width: 20rem;">
+        <img *ngIf="product.imageUrl"  class="card-img-top" [src]="product.imageUrl">
+        <div class="card-body">
+            <h4 class="card-title">{{product.title}}</h4>
+            <p class="card-text">{{product.price | currency:'USD':"symbol"}}</p>
+        </div>
+    </div>
+  </div>

@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/shopping-cart">Shopping Cart</a>
+        </li>
+
+        <!-- Display login link if no user is logged in -->
+        <li class="nav-item" *ngIf="!user">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+
+        <!-- Dropdown menu for logged-in users -->
+        <li *ngIf="user" ngbDropdown class="nav-item dropdown">
+          <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button" aria-expanded="false">
+            {{ user.firstName }} {{ user.lastName }}
+          </a>
+          
+
+          <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/my/orders">My Orders</a>
+            <a *ngIf="user?.isAdmin" class="dropdown-item" href="/admin/admin-orders">Manage Orders</a>
+            <hr class="dropdown-divider">
+            <a *ngIf="user?.isAdmin" class="dropdown-item" href="/admin/products">Manage Products</a>
+            <a *ngIf="user?.isAdmin" class="dropdown-item" href="/admin/books">Manage Books</a>
+            <a class="dropdown-item" href="/manage-account">Manage Account</a>
+            <a (click)="logout()" href="/" class="dropdown-item" >Logout</a>
+          </div>
+        </li>
+
+        <!-- Display personalized message if user is logged in -->
+        <li *ngIf="user" class="nav-item">
+          <a class="nav-link active" aria-current="page">Hello {{user.firstName }}, have a nice shopping day!</a>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+

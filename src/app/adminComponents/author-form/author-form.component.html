@@ -1,0 +1,51 @@
+<form (ngSubmit)="addAuthor()" #authorForm="ngForm" class="p-4 shadow-sm rounded bg-light">
+    <!-- Name Field -->
+    <div class="form-group mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input
+        id="name"
+        type="text"
+        class="form-control"
+        [(ngModel)]="author.name"
+        name="name"
+        required
+        placeholder="Enter the author's name"
+      />
+      <div *ngIf="authorForm.submitted && !authorForm.controls['name']?.valid" class="text-danger">
+        Name is required.
+      </div>
+    </div>
+  
+    <!-- Biography Field -->
+    <div class="form-group mb-3">
+      <label for="biography" class="form-label">Biography</label>
+      <textarea
+        id="biography"
+        class="form-control"
+        [(ngModel)]="author.biography"
+        name="biography"
+        rows="5"
+        required
+        placeholder="Enter the author's biography"
+      ></textarea>
+      <div *ngIf="authorForm.submitted && !authorForm.controls['biography']?.valid" class="text-danger">
+        Biography is required.
+      </div>
+    </div>
+  
+    <!-- Save Button -->
+    <button type="submit" class="btn btn-primary w-100">Save Author</button>
+  </form>
+  
+  <!-- Author Display Card -->
+  <div *ngIf="author">
+    <div class="col-md-6">
+      <div class="card" style="width: 20rem;">
+        <div class="card-body">
+          <h4 class="card-title">{{ author.name }}</h4>
+          <p class="card-text">{{ author.biography }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

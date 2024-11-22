@@ -1,0 +1,31 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between mb-3">
+      <a href="/admin/products/new" class="btn btn-success">New Product</a>
+      <a href="/admin/products" class="btn btn-info">Refresh Products</a>
+    </div>
+    <div class="form-control">
+        <p>
+            <input #query (keyup)="filter(query.value)" class="form-control" type="text" placeholder="Search...">
+        </p>
+    </div>
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Price</th>
+          <th scope="col" class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of filteredProducts">
+          <td>{{ p.title }}</td>
+          <td>{{ p.price | currency }}</td>
+          <td class="text-center">
+            <a [routerLink]="['/admin/products', p.productId]" class="btn btn-sm btn-warning mr-2">Edit</a>
+            <button class="btn btn-sm btn-danger" (click)="deleteProduct(p)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

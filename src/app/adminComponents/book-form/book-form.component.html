@@ -1,0 +1,155 @@
+<form (ngSubmit)="add()" #bookForm="ngForm" class="p-4 shadow-sm rounded bg-light">
+  <!-- Title Field -->
+  <div class="form-group mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input
+      id="title"
+      type="text"
+      class="form-control"
+      [(ngModel)]="book.title"
+      name="title"
+      required
+      placeholder="Enter the book title"
+    />
+  </div>
+
+  <!-- Purchase Price Field -->
+  <div class="form-group mb-3">
+    <label for="purchasePrice" class="form-label">Purchase Price</label>
+    <input
+      id="purchasePrice"
+      type="number"
+      class="form-control"
+      [(ngModel)]="book.purchasePrice"
+      name="purchasePrice"
+      required
+      placeholder="Enter the purchase price"
+    />
+  </div>
+
+  <!-- Type Field -->
+  <div class="form-group mb-3">
+    <label for="type" class="form-label">Type</label>
+    <input
+      id="type"
+      type="text"
+      class="form-control"
+      [(ngModel)]="book.type"
+      name="type"
+      required
+      placeholder="Enter the book type"
+    />
+  </div>
+
+  <!-- Publisher Field -->
+  <div class="form-group mb-3">
+    <label for="publisher" class="form-label">Publisher</label>
+    <input
+      id="publisher"
+      type="text"
+      class="form-control"
+      [(ngModel)]="book.publisher"
+      name="publisher"
+      required
+      placeholder="Enter the publisher"
+    />
+  </div>
+
+  <!-- Authors Field -->
+  <div class="form-group mb-3">
+    <label for="authors" class="form-label">Authors</label>
+    <div *ngFor="let author of authors" class="form-check">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        [checked]="book.authors.includes(author.name)"
+        (change)="onAuthorChange(author.name, $event.target.checked)"
+        id="{{ author.name }}"
+      />
+      <label class="form-check-label" for="{{ author.name }}">{{ author.name }}</label>
+    </div>
+    <div *ngIf="bookForm.submitted && book.authors.length === 0" class="text-danger">
+      At least one author is required.
+    </div>
+  </div>
+
+  <!-- Categories Field -->
+  <div *ngIf="categories" class="form-group mb-3">
+    <label for="categories" class="form-label">Categories</label>
+    <div *ngFor="let category of categories" class="form-check">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        [checked]="book.categories.includes(category.name)"
+        (change)="onCategoryChange(category.name, $event)"
+        id="{{ category.name }}"
+      />
+      <label class="form-check-label" for="{{ category.name }}">{{ category.name }}</label>
+    </div>
+    <div *ngIf="bookForm.submitted && book.categories.length === 0" class="text-danger">
+      At least one category is required.
+    </div>
+  </div>
+
+  <!-- Voice Summary URL Field -->
+  <div class="form-group mb-3">
+    <label for="voiceSummaryUrl" class="form-label">Voice Summary URL</label>
+    <input
+      id="voiceSummaryUrl"
+      type="text"
+      class="form-control"
+      [(ngModel)]="book.voiceSummaryUrl"
+      name="voiceSummaryUrl"
+      placeholder="Enter the voice summary URL"
+    />
+  </div>
+
+  <!-- Quantity Field -->
+  <div class="form-group mb-3">
+    <label for="qty" class="form-label">Quantity</label>
+    <input
+      id="qty"
+      type="number"
+      class="form-control"
+      [(ngModel)]="book.qty"
+      name="qty"
+      required
+      placeholder="Enter the quantity"
+    />
+  </div>
+
+  <!-- Image URL Field -->
+  <div class="form-group mb-3">
+    <label for="imageUrl" class="form-label">Image URL</label>
+    <input
+      id="imageUrl"
+      type="text"
+      class="form-control"
+      [(ngModel)]="book.imageUrl"
+      name="imageUrl"
+      placeholder="Enter the image URL"
+    />
+  </div>
+
+  <!-- Save Button -->
+  <button type="submit" class="btn btn-primary w-100">Save</button>
+</form>
+
+<!-- Display Book Card -->
+<div *ngIf="book.title" class="col-md-6 mt-4">
+  <div class="card" style="width: 20rem;">
+    <img *ngIf="book.imageUrl" class="card-img-top" [src]="book.imageUrl" alt="Book Image" />
+    <div class="card-body">
+      <h4 class="card-title">{{ book.title }}</h4>
+      <p class="card-text">{{ book.purchasePrice | currency: 'USD': 'symbol' }}</p>
+      <p class="card-text">Type: {{ book.type }}</p>
+      <p class="card-text">Publisher: {{ book.publisher }}</p>
+      <p class="card-text">Authors: {{ book.authors.join(', ') }}</p>
+      <p class="card-text">Categories: {{ book.categories.join(', ') }}</p>
+      <p *ngIf="book.voiceSummaryUrl" class="card-text">
+        Voice Summary: <a [href]="book.voiceSummaryUrl" target="_blank">Listen</a>
+      </p>
+      <p class="card-text">Quantity: {{ book.qty }}</p>
+    </div>
+  </div>
+</div>

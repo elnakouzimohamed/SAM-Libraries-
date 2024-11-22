@@ -1,0 +1,22 @@
+<div class="categories">
+    <h3>Filter by Categories</h3>
+    <div *ngFor="let category of categories">
+      <label>
+        <input
+          type="checkbox"
+          [value]="category.name"
+          (change)="onCategoryChange($event)"
+        />
+        {{ category.name }}
+      </label>
+    </div>
+  </div>
+  
+  <div class="books">
+    <h3>Books</h3>
+    <div *ngFor="let book of filteredBooks">
+      <h4>{{ book.title }}</h4>
+      <p>Categories: {{  getCategoryNames(book)}}</p>
+    </div>
+  </div>
+  

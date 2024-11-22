@@ -1,0 +1,45 @@
+<form class="p-4 shadow-sm rounded bg-light">
+    <!-- First Name Field -->
+    <div class="form-group mb-3">
+      <label for="firstName" class="form-label">First Name</label>
+      <input id="firstName" type="text" class="form-control" [(ngModel)]="firstName" [ngModelOptions]="{standalone: true}" required>
+    </div>
+  
+    <!-- Last Name Field -->
+    <div class="form-group mb-3">
+      <label for="lastName" class="form-label">Last Name</label>
+      <input id="lastName" type="text" class="form-control" [(ngModel)]="lastName" [ngModelOptions]="{standalone: true}" required>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="interest" class="form-label">Interest</label>
+      <input id="interest" type="text" class="form-control" [(ngModel)]="interest" [ngModelOptions]="{standalone: true}" required>
+    </div>
+  
+    <!-- Password 1 Field -->
+    <div class="form-group mb-3">
+      <label for="password1" class="form-label">Enter Password</label>
+      <input id="password1" type="password" class="form-control" [(ngModel)]="password1" [ngModelOptions]="{standalone: true}" required>
+    </div>
+  
+    <!-- Password 2 Field -->
+    <div class="form-group mb-3">
+      <label for="password2" class="form-label">Reenter Password</label>
+      <input id="password2" type="password" class="form-control" [(ngModel)]="password2" [ngModelOptions]="{standalone: true}" required>
+    </div>
+  
+    <!-- Submit Button -->
+    <button class="btn btn-primary w-100 mb-3" (click)="submit()">Create Account</button>
+  
+    <!-- Error Message -->
+    <div *ngIf="flag2" class="alert alert-danger text-center mt-3">
+      ⚠️ The reentered password doesn't match!
+    </div>
+  
+    <!-- Success Message -->
+    <div *ngIf="flag1" class="alert alert-success text-center mt-3">
+      <h2><strong>{{message}}</strong> Your ID is {{userService.userSignupId}}</h2>
+      <a class="btn btn-primary mt-3" href="/login">Click to Login to Your New Account</a>
+    </div>
+  </form>
+  
