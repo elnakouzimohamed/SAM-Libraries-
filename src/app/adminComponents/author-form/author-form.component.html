@@ -6,7 +6,7 @@
         id="name"
         type="text"
         class="form-control"
-        [(ngModel)]="author.name"
+        [(ngModel)]="author.authorName"
         name="name"
         required
         placeholder="Enter the author's name"
@@ -42,7 +42,7 @@
     <div class="col-md-6">
       <div class="card" style="width: 20rem;">
         <div class="card-body">
-          <h4 class="card-title">{{ author.name }}</h4>
+          <h4 class="card-title">{{ author.authorName }}</h4>
           <p class="card-text">{{ author.biography }}</p>
         </div>
       </div>

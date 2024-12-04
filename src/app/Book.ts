@@ -8,6 +8,7 @@ export interface Book{
     categories: Category[];
     authors: Author[];
     purchasePrice: number;
+    borrowPrice: number;
     publisher: string;
     imageUrl: string;
     voiceSummaryUrl: string; 

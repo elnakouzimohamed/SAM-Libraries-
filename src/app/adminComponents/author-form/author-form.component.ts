@@ -23,13 +23,12 @@ import { AuthorService } from '../../author.service';
 export class AuthorFormComponent {
   constructor(private authorService: AuthorService){}
     author: Author = {
-      authorId: '',
-      name: '',
+      authorName: '',
       biography: '',
     };
   
     addAuthor() {
-      if (this.author.name && this.author.biography) {
+      if (this.author.authorName && this.author.biography) {
         this.authorService.addAuthor(this.author);
         console.log('Author added:', this.author);
         // You can add logic to send the author data to a backend service here.

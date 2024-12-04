@@ -61,7 +61,7 @@ export class ProductsComponent {
   }
   filter(){
     if(this.selectedCategory){
-    this.categorizedProducts =  this.products.filter(p => p.category === this.selectedCategory.name);}
+    this.categorizedProducts =  this.products.filter(p => p.category === this.selectedCategory.categoryName);}
     else {
       this.categorizedProducts = this.products
       

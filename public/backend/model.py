@@ -18,15 +18,21 @@ class Book(BaseModel):
     imageUrl: str
     voiceSummaryUrl: str
 
+class Category(BaseModel):
+    categoryName: str
+  
 class BookView(BaseModel):
     bookId: str
     title: str
     type: str  # 'Textbook', 'Magazine', 'Article', 'Research Paper'
+    categories: list
+    authors: list
     purchasePrice: float
     borrowPrice: float
     publisher: str
     imageUrl: str
     voiceSummaryUrl: str
+
     qty: int
 
 class BookCopy(BaseModel):
@@ -47,6 +53,13 @@ class ShoppingCart(BaseModel):
 
 
 class Author(BaseModel):
-    authorId: str
-    name: str
+    authorName: str
     biography: str
+
+class CreditCard(BaseModel):
+    creditCardId: str  # Format: "crd999999"
+    cardNumber: str  # Hashed representation
+    cardHolderName: str
+    expiryDate: str  # Format: "MM/YY", stored hashed
+    cvv: str  # Hashed representation
+    userId: str  # Reference to User ID

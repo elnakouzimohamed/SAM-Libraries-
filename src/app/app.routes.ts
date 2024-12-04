@@ -16,11 +16,12 @@ import { BookFormComponent } from './adminComponents/book-form/book-form.compone
 import { AdminBooksComponent } from './adminComponents/admin-books/admin-books.component';
 import { AuthorService } from './author.service';
 import { AuthorFormComponent } from './adminComponents/author-form/author-form.component';
+import { BooksComponent } from './books/books.component';
 
 
 export const routes: Routes = [
           
-      { path: '', component: ProductsComponent },  
+      { path: '', component: BooksComponent },  
       
       { path: 'shopping-cart', component: ShoppingCartComponent },
       { path: 'check-out', component: CheckOutComponent },
@@ -29,9 +30,9 @@ export const routes: Routes = [
       { path: 'admin/admin-orders', component: AdminOrdersComponent, canActivate: [adminGuard]},
      
       { path: 'my/orders', component: MyOrdersComponent },
-      { path: 'admin/products/new', component: ProductFormComponent},
-      { path: 'admin/products/:id', component: ProductFormComponent},
-      { path: 'admin/products', component: AdminProductsComponent }, 
+      //{ path: 'admin/products/new', component: ProductFormComponent},
+      //{ path: 'admin/products/:id', component: ProductFormComponent},
+      //{ path: 'admin/products', component: AdminProductsComponent }, 
       {path: 'admin/books/new', component: BookFormComponent},
       {path: 'admin/books', component: AdminBooksComponent},
       {path: 'admin/books/:id', component: BookFormComponent},
