@@ -12,10 +12,11 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
 import { SignupComponent } from './signup/signup.component';
 import { adminGuard } from './guards/admin.guard';
 import { ManageAccountComponent } from './manage-account/manage-account.component';
-import { BookFormComponent } from './adminComponents/book-form/book-form.component';
+import { BooksComponent } from './adminComponents/book-form/book-form.component';
 import { AdminBooksComponent } from './adminComponents/admin-books/admin-books.component';
 import { AuthorService } from './author.service';
 import { AuthorFormComponent } from './adminComponents/author-form/author-form.component';
+import { LibrarianComponent } from './librarian/librarian.component';
 
 
 export const routes: Routes = [
@@ -32,12 +33,13 @@ export const routes: Routes = [
       { path: 'admin/products/new', component: ProductFormComponent},
       { path: 'admin/products/:id', component: ProductFormComponent},
       { path: 'admin/products', component: AdminProductsComponent }, 
-      {path: 'admin/books/new', component: BookFormComponent},
+      {path: 'admin/books/new', component: BooksComponent},
       {path: 'admin/books', component: AdminBooksComponent},
-      {path: 'admin/books/:id', component: BookFormComponent},
+      {path: 'admin/books/:id', component: BooksComponent},
       {path: 'signup', component: SignupComponent},
       {path: 'manage-account', component: ManageAccountComponent},
-      {path: 'admin/authors/new', component: AuthorFormComponent}
+      {path: 'admin/authors/new', component: AuthorFormComponent},
+      {path: 'librarian', component: LibrarianComponent}
 
     ];
 

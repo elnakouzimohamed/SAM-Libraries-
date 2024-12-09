@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
+import{FormsModule} from '@angular/forms';
 @Component({
   selector: 'app-book-form',
   standalone: true,
+  imports: [CommonModule, CurrencyPipe,FormsModule],
   templateUrl: './book-form.component.html',
-  styleUrls: ['./book-form.component.scss'],
-  imports: [CommonModule, CurrencyPipe]
+  styleUrls: ['./book-form.component.scss']
 })
 export class BooksComponent {
   book = {

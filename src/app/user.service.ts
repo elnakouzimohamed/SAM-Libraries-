@@ -44,7 +44,6 @@ export class UserService {
 
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUrl}user`);
-
   }
 
   getUser(id: number): Observable<User> {

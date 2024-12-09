@@ -1,7 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
     <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" 
+    data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
+    aria-controls="navbarSupportedContent" aria-expanded="false" 
+    aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -13,11 +16,14 @@
         <li class="nav-item">
           <a class="nav-link" href="/shopping-cart">Shopping Cart</a>
         </li>
-
-        <!-- Display login link if no user is logged in -->
         <li class="nav-item" *ngIf="!user">
           <a class="nav-link" href="/login">Login</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/librarian">Ask Librarian</a>
+        </li>
+
+        <!-- Display login link if no user is logged in -->
 
         <!-- Dropdown menu for logged-in users -->
         <li *ngIf="user" ngbDropdown class="nav-item dropdown">
