@@ -25,7 +25,7 @@
       <label for="category" class="form-label">Category</label>
       <select id="category" class="form-control" [(ngModel)]="product.category" name="category" required>
         <option value="" disabled selected>Select a category</option>
-        <option *ngFor="let c of categories" [value]="c.name">{{ c.name }}</option>
+        <option *ngFor="let c of categories" [value]="c.categoryName">{{ c.categoryName }}</option>
       </select>
       <div *ngIf="productForm.submitted && !productForm.controls['category']?.valid" class="text-danger">
         Category is required.

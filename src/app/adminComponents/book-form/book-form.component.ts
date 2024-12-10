@@ -1,71 +1,75 @@
 import { Component } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import{FormsModule} from '@angular/forms';
 @Component({
   selector: 'app-book-form',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe,FormsModule],
   templateUrl: './book-form.component.html',
   styleUrls: ['./book-form.component.scss']
 })
-export class BooksComponent {
-  book = {
-    title: '',
-    purchasePrice: 0,
-    type: '',
-    publisher: '',
-    authors: [] as string[],
-    categories: [] as string[],
-    voiceSummaryUrl: '',
-    qty: 0,
-    imageUrl: '',
-  };
+export class BookFormComponent {
+  categories!: (Category & { checked: boolean })[];
+  authors!: (Author & { checked: boolean })[];
+  book!: Book;
 
-  authors = [
-    { name: 'Author 1' },
-    { name: 'Author 2' },
-    { name: 'Author 3' },
-  ];
+  id;
 
-  categories = [
-    { name: 'Fiction' },
-    { name: 'Science' },
-    { name: 'History' },
-  ];
+  constructor(
+    private categoryService: CategoryService,
+    private authorService: AuthorService,
+    private bookService: BookService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    this.id = this.route.snapshot.paramMap.get('id');
+    if (this.id) {
+      this.bookService.getBook(this.id).subscribe(b => {
+        this.book = b;
 
-  onAuthorChange(author: string, isChecked: boolean) {
-    if (isChecked) {
-      this.book.authors.push(author);
-    } else {
-      const index = this.book.authors.indexOf(author);
-      if (index > -1) {
-        this.book.authors.splice(index, 1);
-      }
+        // Pre-check categories and authors if editing
+        this.categories.forEach(category => {
+          category.checked = this.book.categories.some(c => c.categoryName === category.categoryName);
+        });
+
+        this.authors.forEach(author => {
+          author.checked = this.book.authors.some(a => a.authorName === author.authorName);
+        });
+      });
     }
   }
 
-  onCategoryChange(category: string, isChecked: boolean) {
-    if (isChecked) {
-      this.book.categories.push(category);
-    } else {
-      const index = this.book.categories.indexOf(category);
-      if (index > -1) {
-        this.book.categories.splice(index, 1);
-      }
-    }
+  async ngOnInit() {
+    // Add `checked` attribute dynamically
+    await this.categoryService.getAllCategories().subscribe((data: Category[]) => {
+      this.categories = data.map(category => ({ ...category, checked: false }));
+    });
+    await this.authorService.getAllAuthors().subscribe((data: Author[]) => {
+      this.authors = data.map(author => ({ ...author, checked: false }));
+    });
   }
 
-  add() {
-    if (
-      this.book.title &&
-      this.book.purchasePrice &&
-      this.book.qty &&
-      this.book.authors.length > 0 &&
-      this.book.categories.length > 0
-    ) {
-      alert('Book added successfully!');
+  async add() {
+    // Collect selected categories and authors, omitting the `checked` property
+    const selectedCategories = this.categories.filter(c => c.checked).map(c => {
+      const { checked, ...categoryWithoutChecked } = c;
+      return categoryWithoutChecked;
+    });
+    const selectedAuthors = this.authors.filter(a => a.checked).map(a => {
+      const { checked, ...authorWithoutChecked } = a;
+      return authorWithoutChecked;
+    });
+
+    // Assign selected categories and authors to the book
+    this.book.categories = selectedCategories;
+    this.book.authors = selectedAuthors;
+
+    // Add or update the book
+    if (this.id) {
+      await this.bookService.updateBook(this.id, this.book);
     } else {
-      alert('Please fill out all required fields and select at least one author and one category.');
+      await this.bookService.addBook(this.book);
     }
+
+    // Navigate to books list after saving
+    this.router.navigate(['/admin/books']);
   }
 }

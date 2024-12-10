@@ -32,8 +32,8 @@ def setup_database():
     sql_commands = [
         
     """
-    CREATE TABLE IF NOT EXISTS USERS (
-        userId VARCHAR(20) PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS USER (
+        userId INT PRIMARY KEY,
         firstName VARCHAR(100),
         lastName VARCHAR(100),
         isAdmin BOOLEAN,
@@ -47,7 +47,7 @@ def setup_database():
     CREATE TABLE IF NOT EXISTS BOOK (
         bookId VARCHAR(20) PRIMARY KEY,
         title VARCHAR(255),
-        type ENUM('Textbook', 'Magazine', 'Article', 'Research Paper'),
+        type VARCHAR(20),
         purchasePrice DECIMAL(10, 2),
         borrowPrice Decimal(10,2),
         publisher VARCHAR(255),
@@ -57,45 +57,44 @@ def setup_database():
     """,
     """
     CREATE TABLE IF NOT EXISTS AUTHOR (
-        authorId VARCHAR(20) PRIMARY KEY,
-        name VARCHAR(255),
+        authorName VARCHAR(50) PRIMARY KEY,
         biography TEXT
     )
     """,
     """
     CREATE TABLE IF NOT EXISTS RECOMMENDEDFOR (
         bookId VARCHAR(20),
-        userId VARCHAR(20),
+        userId INT,
         PRIMARY KEY (bookId, userId),
         FOREIGN KEY (bookId) REFERENCES BOOK(bookId),
-        FOREIGN KEY (userId) REFERENCES USERS(userId)
+        FOREIGN KEY (userId) REFERENCES USER(userId)
     )
     """,
     """
     CREATE TABLE IF NOT EXISTS CATEGORY (
-        categoryId VARCHAR(20) PRIMARY KEY,
-        categoryName VARCHAR(100)
+         
+        categoryName VARCHAR(100) PRIMARY KEY
     )
     """,
     """
     CREATE TABLE IF NOT EXISTS BOOKCOPY (
         bookCopyId VARCHAR(20) PRIMARY KEY,
         status VARCHAR(50),
-        userId VARCHAR(20),
+        userId INT,
         bookId VARCHAR(20),
-        FOREIGN KEY (userId) REFERENCES USERS(userId),
+        FOREIGN KEY (userId) REFERENCES USER(userId),
         FOREIGN KEY (bookId) REFERENCES BOOK(bookId)
     )
     """,
     """
     CREATE TABLE IF NOT EXISTS BORROW (
-        userId VARCHAR(20),
+        userId INT,
         bookCopyId VARCHAR(20),
         borrowDate DATE,
         returnDate DATE,
         borrowCost DECIMAL(10, 2),
         PRIMARY KEY (userId, bookCopyId),
-        FOREIGN KEY (userId) REFERENCES USERS(userId),
+        FOREIGN KEY (userId) REFERENCES USER(userId),
         FOREIGN KEY (bookCopyId) REFERENCES BOOKCOPY(bookCopyId)
     )
     """,
@@ -113,8 +112,8 @@ def setup_database():
     CREATE TABLE IF NOT EXISTS SHOPPINGCART (
         shoppingCartId VARCHAR(20) PRIMARY KEY,
         status VARCHAR(20),
-        userId VARCHAR(20),
-        FOREIGN KEY (userId) REFERENCES USERS(userId)
+        userId INT,
+        FOREIGN KEY (userId) REFERENCES USER(userId)
     )
     """,
     """
@@ -124,8 +123,8 @@ def setup_database():
         cardHolderName VARCHAR(255),
         expiryDate DATE,
         cvv INT,
-        userId VARCHAR(20),
-        FOREIGN KEY (userId) REFERENCES USERS(userId)
+        userId INT,
+        FOREIGN KEY (userId) REFERENCES USER(userId)
     )
     """,
     """
@@ -136,20 +135,20 @@ def setup_database():
         shippingFee DECIMAL(10, 2),
         address VARCHAR(255),
         shoppingCartId VARCHAR(20),
-        userId VARCHAR(20),
+        userId INT,
         creditCardId VARCHAR(20),
         FOREIGN KEY (shoppingCartId) REFERENCES SHOPPINGCART(shoppingCartId),
-        FOREIGN KEY (userId) REFERENCES USERS(userId),
+        FOREIGN KEY (userId) REFERENCES USER(userId),
         FOREIGN KEY (creditCardId) REFERENCES CREDITCARD(creditCardId)
     )
     """,
     """
     CREATE TABLE IF NOT EXISTS BOOK_CATEGORY (
         bookId VARCHAR(20),
-        categoryId VARCHAR(20),
-        PRIMARY KEY (bookId, categoryId),
+        categoryName VARCHAR(20),
+        PRIMARY KEY (bookId, categoryName),
         FOREIGN KEY (bookId) REFERENCES BOOK(bookId),
-        FOREIGN KEY (categoryId) REFERENCES CATEGORY(categoryId)
+        FOREIGN KEY (categoryName) REFERENCES CATEGORY(categoryName)
     )
     """,
     """
@@ -165,29 +164,31 @@ def setup_database():
     """
     CREATE TABLE IF NOT EXISTS BOOK_AUTHOR (
         bookId VARCHAR(20),
-        authorId VARCHAR(20),
-        PRIMARY KEY (bookId, authorId),
+        authorName VARCHAR(20),
+        PRIMARY KEY (bookId, authorName),
         FOREIGN KEY (bookId) REFERENCES BOOK(bookId),
-        FOREIGN KEY (authorId) REFERENCES AUTHOR(authorId)
+        FOREIGN KEY (authorName) REFERENCES AUTHOR(authorName)
     )
     """,
     """
     CREATE TABLE IF NOT EXISTS USER_LIBRARIAN (
-        userId VARCHAR(20),
+        userId INT,
         librarianId VARCHAR(20),
         meetingDate DATE,
         meetingStartTime TIME,
         meetingDuration INT,
         PRIMARY KEY (userId, librarianId),
-        FOREIGN KEY (userId) REFERENCES USERS(userId),
+        FOREIGN KEY (userId) REFERENCES USER(userId),
         FOREIGN KEY (librarianId) REFERENCES LIBRARIAN(librarianId)
     )
     """,
     """
     CREATE TABLE IF NOT EXISTS MAKEADMIN (
-        adminId VARCHAR(20) PRIMARY KEY,
-        userId VARCHAR(20) UNIQUE,
-        FOREIGN KEY (userId) REFERENCES USERS(userId)
+        adminId INT,
+        userId INT ,
+        PRIMARY KEY (adminId,userId),
+        FOREIGN KEY (userId) REFERENCES USER(userId),
+        FOREIGN KEY (adminId) REFERENCES USER(userId)
     )
     """
 ]
@@ -202,8 +203,8 @@ def setup_database():
     # Sample data insertion (if necessary)
     insert_data = [
         """
-        INSERT INTO USERS (userId, firstName, lastName, isAdmin, interest, password)
-        VALUES (1, 'Alice', 'Smith', 0, 'Machine Learning', 'password1')
+        INSERT INTO USER (userId, firstName, lastName, isAdmin, interest, password)
+        VALUES (1, 'Alice', 'Smith', true, 'Machine Learning', 'password1')
         ON DUPLICATE KEY UPDATE userId=userId
         """,
         
@@ -252,9 +253,20 @@ def select_all_books(db):
 def create_authordb(db, user_data):
     with get_db() as db:
         cursor = db.cursor()
-        sql = "INSERT INTO Author (authorId, name, biography) VALUES (%s, %s, %s)"
+        sql = "INSERT INTO Author (authorName, biography) VALUES (%s, %s)"
         cursor.execute(sql, (
-            user_data['autherId'], user_data['name'], user_data['biography'], 
+         user_data['authorName'], user_data['biography'], 
+            
+        ))
+        db.commit()
+        cursor.close()
+
+def create_categorydb(db, category_data):
+    with get_db() as db:
+        cursor = db.cursor()
+        sql = "INSERT INTO Category VALUES (%s)"
+        cursor.execute(sql, (
+            category_data['categoryName'], 
             
         ))
         db.commit()
@@ -264,14 +276,14 @@ def get_userdb(get_db, user_id):
     # Use the context manager properly to get the database connection
     with get_db() as db:  # This opens the connection
         cursor = db.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM USERS WHERE userId = %s", (user_id,))
+        cursor.execute("SELECT * FROM USER WHERE userId = %s", (user_id,))
         user = cursor.fetchone()  # Assuming you want one user
         return user
 
 def create_userdb(db,user_data):
     with get_db() as db:
         cursor = db.cursor()
-        sql = "INSERT INTO USERS (userId, firstName, lastName, isAdmin, interest, password) VALUES (%s, %s, %s, %s, %s, %s)"
+        sql = "INSERT INTO USER (userId, firstName, lastName, isAdmin, interest, password) VALUES (%s, %s, %s, %s, %s, %s)"
         cursor.execute(sql, (
             user_data['userId'], user_data['firstName'], user_data['lastName'], 
             user_data['isAdmin'], user_data['interest'], user_data['password']
@@ -282,7 +294,7 @@ def create_userdb(db,user_data):
 def get_userdb(db,user_id):
     with get_db() as db:
         cursor = db.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM USERS WHERE userId = %s", (user_id,))
+        cursor.execute("SELECT * FROM USER WHERE userId = %s", (user_id,))
         user = cursor.fetchone()
         cursor.close()
         return user
@@ -290,7 +302,7 @@ def get_userdb(db,user_id):
 def update_userdb(user_id, user_data):
     with get_db() as db:
         cursor = db.cursor()
-        sql = "UPDATE USERS SET firstName = %s, lastName = %s, isAdmin = %s, interest = %s, password = %s WHERE userId = %s"
+        sql = "UPDATE USER SET firstName = %s, lastName = %s, isAdmin = %s, interest = %s, password = %s WHERE userId = %s"
         cursor.execute(sql, (
             user_data['firstName'], user_data['lastName'], user_data['isAdmin'], 
             user_data['interest'], user_data['password'], user_id
@@ -301,20 +313,20 @@ def update_userdb(user_id, user_data):
 def delete_userdb(user_id):
     with get_db() as db:
         cursor = db.cursor()
-        sql = "DELETE FROM USERS WHERE userId = %s"
+        sql = "DELETE FROM USER WHERE userId = %s"
         cursor.execute(sql, (user_id,))
         db.commit()
         cursor.close()
 
 # BOOK CRUD Operations
 
-def create_bookdb(book_data):
+def create_bookdb(db, book_data):
     with get_db() as db:
         cursor = db.cursor()
         sql = "INSERT INTO BOOK (bookId, title, type, purchasePrice, publisher, imageUrl, voiceSummaryUrl) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         cursor.execute(sql, (
             book_data['bookId'], book_data['title'], book_data['type'], 
-            book_data['purchasePrice'], book_data['publisher'], 
+            book_data['purchasePrice'], book_data['borrowPrice'], book_data['publisher'], 
             book_data['imageUrl'], book_data['voiceSummaryUrl']
         ))
         db.commit()
@@ -334,7 +346,7 @@ def update_bookdb(book_id, book_data):
         cursor = db.cursor()
         sql = "UPDATE BOOK SET title = %s, type = %s, purchasePrice = %s, publisher = %s, imageUrl = %s, voiceSummaryUrl = %s WHERE bookId = %s"
         cursor.execute(sql, (
-            book_data['title'], book_data['type'], book_data['purchasePrice'], 
+            book_data['title'], book_data['type'], book_data['purchasePrice'], book_data['borrowPrice'], 
             book_data['publisher'], book_data['imageUrl'], 
             book_data['voiceSummaryUrl'], book_id
         ))
@@ -352,9 +364,166 @@ def delete_bookdb(book_id):
 def select_all_users():
     with get_db() as db:
         cursor = db.cursor(dictionary=True)
-        sql = "SELECT * FROM USERS"
+        sql = "SELECT * FROM USER"
         cursor.execute(sql)
         users = cursor.fetchall()
         cursor.close()
         return users
 
+# Sami's work
+
+def get_all_categories(db):
+    with get_db() as db:
+        cursor = db.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM CATEGORY")
+        categories = cursor.fetchall()
+        cursor.close()
+        return categories
+
+def get_all_authors(db):
+    with get_db() as db:
+        cursor = db.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM AUTHOR")
+        authors = cursor.fetchall()
+        cursor.close()
+        return authors
+
+def get_all_book_views(db):
+    with get_db() as db:
+        cursor = db.cursor(dictionary=True)
+        
+        # Fetch book and book copy details
+        cursor.execute("""
+            SELECT b.bookId, b.title, b.type, b.purchasePrice, b.borrowPrice, b.publisher, b.imageUrl, b.voiceSummaryUrl,
+                   COUNT(bc.bookCopyId) AS qty
+            FROM BOOK b
+            LEFT JOIN BOOKCOPY bc ON b.bookId = bc.bookId
+            GROUP BY b.bookId
+        """)
+        books = cursor.fetchall()
+        
+        # Fetch authors for books
+        cursor.execute("""
+            SELECT ba.bookId, GROUP_CONCAT(a.authorName) AS authors
+            FROM BOOK_AUTHOR ba
+            JOIN AUTHOR a ON ba.authorName = a.authorName
+            GROUP BY ba.bookId
+        """)
+        authors = {row['bookId']: row['authors'].split(',') for row in cursor.fetchall()}
+        
+        # Fetch categories for books
+        cursor.execute("""
+            SELECT bc.bookId, GROUP_CONCAT(c.categoryName) AS categories
+            FROM BOOK_CATEGORY bc
+            JOIN CATEGORY c ON bc.categoryName = c.categoryName
+            GROUP BY bc.bookId
+        """)
+        categories = {row['bookId']: row['categories'].split(',') for row in cursor.fetchall()}
+        
+        # Combine data
+        for book in books:
+            book['authors'] = authors.get(book['bookId'], [])
+            book['categories'] = categories.get(book['bookId'], [])
+        
+        cursor.close()
+        return books
+    
+
+def add_book(db, bookView):
+    with get_db() as db:
+        cursor = db.cursor()
+        
+        # 1. Insert into BOOK table
+        sql_insert_book = """
+            INSERT INTO BOOK (bookId, title, type, purchasePrice, borrowPrice, publisher, imageUrl, voiceSummaryUrl)
+            VALUES (%s, %s, %s, %s, %s, %s,%s, %s)
+        """
+        cursor.execute(sql_insert_book, (
+            bookView['bookId'], bookView['title'], bookView['type'], bookView['purchasePrice'],
+            bookView['borrowPrice'],
+            bookView['publisher'], bookView['imageUrl'], bookView['voiceSummaryUrl']
+        ))
+        
+        # 2. Insert copies into BOOKCOPY table
+        sql_insert_bookcopy = """
+            INSERT INTO BOOKCOPY (bookCopyId, bookId, status)
+            VALUES (%s, %s, 'Available')
+        """
+        for i in range(bookView['qty']):
+            bookCopyId = f"bkc{int(bookView['bookId'][2:]) * 1000 + i}"  # Generate unique bookCopyId
+            cursor.execute(sql_insert_bookcopy, (bookCopyId, bookView['bookId']))
+            
+            db.commit()
+
+
+def add_to_cart_for_purchase(db, shoppingCartId, bookCopyId):
+    with get_db() as db:
+        cursor = db.cursor()
+        sql = """
+            INSERT INTO SHOPPINGCART_BOOKCOPY (shoppingCartId, bookCopyId, type)
+            VALUES (%s, %s, 'Purchase')
+        """
+        cursor.execute(sql, (shoppingCartId, bookCopyId))
+        db.commit()
+        cursor.close()
+
+def add_to_cart_for_borrowing(db, shoppingCartId, bookCopyId):
+    with get_db() as db:
+        cursor = db.cursor()
+        sql = """
+            INSERT INTO SHOPPINGCART_BOOKCOPY (shoppingCartId, bookCopyId, type)
+            VALUES (%s, %s, 'Borrow')
+        """
+        cursor.execute(sql, (shoppingCartId, bookCopyId))
+        db.commit()
+        cursor.close()
+
+def remove_from_cart(db, shoppingCartId, bookCopyId):
+    with get_db() as db:
+        cursor = db.cursor()
+        sql = """
+            DELETE FROM SHOPPINGCART_BOOKCOPY 
+            WHERE shoppingCartId = %s AND bookCopyId = %s
+        """
+        cursor.execute(sql, (shoppingCartId, bookCopyId))
+        db.commit()
+        cursor.close()
+
+
+def make_admin(db, userId):
+    with get_db() as db:
+        cursor = db.cursor()
+        sql = """
+            UPDATE USERS 
+            SET isAdmin = TRUE 
+            WHERE userId = %s
+        """
+        cursor.execute(sql, (userId,))
+        db.commit()
+        cursor.close()
+
+def create_credit_card(db, creditCard):
+    with get_db() as db:
+        cursor = db.cursor()
+        sql = """
+            INSERT INTO CREDITCARD (creditCardId, cardNumber, cardHolderName, expiryDate, cvv, userId)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        cursor.execute(sql, (
+            creditCard['creditCardId'], creditCard['cardNumber'], creditCard['cardHolderName'], 
+            creditCard['expiryDate'], creditCard['cvv'], creditCard['userId']
+        ))
+        db.commit()
+        cursor.close()
+
+
+def delete_credit_card(db, creditCardId):
+    with get_db() as db:
+        cursor = db.cursor()
+        sql = """
+            DELETE FROM CREDITCARD 
+            WHERE creditCardId = %s
+        """
+        cursor.execute(sql, (creditCardId,))
+        db.commit()
+        cursor.close()

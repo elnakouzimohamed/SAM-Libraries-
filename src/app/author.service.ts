@@ -18,12 +18,7 @@ export class AuthorService {
 
 
   async addAuthor(author: Author) {
-        try {
-       
-        const authors = await firstValueFrom(this.getAllAuthors());
-    
-        
-        author.authorId = `bk${authors.length + 1}`
+       try{
         
         await this.http.post(`${this.url}/author`, author).toPromise();
         console.log('Book added successfully:', author);
@@ -36,6 +31,6 @@ export class AuthorService {
   
   
   async deleteAuthor(author: Author) {
-    await this.http.delete(`${this.url}author${author.authorId}`).toPromise();
+    await this.http.delete(`${this.url}author${author.authorName}`).toPromise();
   }  
 }

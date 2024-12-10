@@ -16,12 +16,11 @@ import { BooksComponent } from './adminComponents/book-form/book-form.component'
 import { AdminBooksComponent } from './adminComponents/admin-books/admin-books.component';
 import { AuthorService } from './author.service';
 import { AuthorFormComponent } from './adminComponents/author-form/author-form.component';
-import { LibrarianComponent } from './librarian/librarian.component';
 
 
 export const routes: Routes = [
           
-      { path: '', component: ProductsComponent },  
+      { path: '', component: BooksComponent },  
       
       { path: 'shopping-cart', component: ShoppingCartComponent },
       { path: 'check-out', component: CheckOutComponent },
@@ -33,7 +32,7 @@ export const routes: Routes = [
       { path: 'admin/products/new', component: ProductFormComponent},
       { path: 'admin/products/:id', component: ProductFormComponent},
       { path: 'admin/products', component: AdminProductsComponent }, 
-      {path: 'admin/books/new', component: BooksComponent},
+      {path: 'admin/books/new', component: BookFormComponent},
       {path: 'admin/books', component: AdminBooksComponent},
       {path: 'admin/books/:id', component: BooksComponent},
       {path: 'signup', component: SignupComponent},

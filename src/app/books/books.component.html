@@ -1,22 +1,40 @@
-<div class="categories">
-    <h3>Filter by Categories</h3>
-    <div *ngFor="let category of categories">
-      <label>
-        <input
-          type="checkbox"
-          [value]="category.name"
-          (change)="onCategoryChange($event)"
-        />
-        {{ category.name }}
-      </label>
-    </div>
+<div class="row bod">
+  <!-- Sidebar for Categories -->
+  <div class="col-3">
+      <div class="form-group bod">
+          <label for="categories"> Categories </label>
+          <div *ngFor="let category of checkingCategories">
+              <input type="checkbox" 
+                     [id]="category.categoryName" 
+                     [value]="category.categoryName"
+                     [(ngModel)]="category.checked"
+                      
+                      (change)="filter()" />
+              <label [for]="category.categoryName">{{category.categoryName}}</label>
+          </div>
+      </div>
   </div>
-  
-  <div class="books">
-    <h3>Books</h3>
-    <div *ngFor="let book of filteredBooks">
-      <h4>{{ book.title }}</h4>
-      <p>Categories: {{  getCategoryNames(book)}}</p>
-    </div>
+
+  <!-- Main Content for Books -->
+  <div class="col-9">
+      <div class="row">
+          <ng-container *ngFor="let book of filteredBooks; let i = index">
+              <div class="col">
+                  <img class="card-img-top" alt="Book image" [src]="book?.imageUrl">
+                  <audio> </audio> <!--to be edited-->
+                  <div class="card-body">
+                      <h4 class="card-title">{{book.title}}</h4>
+                      <p class="card-text">Type: {{book.type}}</p>
+                      <p class="card-text">{{book.purchasePrice | currency:'USD':"symbol"}}</p>
+                      <p class="card-text">{{book.borrowPrice| currency:'USD':"symbol"}}</p>
+                      <button (click)="purchase(book)" class="btn btn-primary">Add to Cart for Purchase</button>
+                      <button (click)="borrow(book)" class="btn btn-primary">Add to Cart for Borrowing</button>
+                  </div>
+              </div>
+              
+              <!-- Clear row after every 2 items -->
+              <div *ngIf="(i + 1) % 2 == 0" class="w-100"></div>
+          </ng-container>
+      </div>
   </div>
-  
+</div>

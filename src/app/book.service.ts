@@ -20,6 +20,9 @@ export class BookService {
   getAllBooks(): Observable<Book[]> {
     return this.http.get<Book[]>(`${this.url}book`);
   }
+  getAllBookViews(): Observable<Book[]> {
+    return this.http.get<Book[]>(`${this.url}bookview`);
+  }
 
   async deleteBook(book: Book) {
     await this.http.delete(`${this.url}book${book.bookId}`).toPromise();
@@ -71,9 +74,9 @@ export class BookService {
 
 
 
-    
+
 
   async delete(book: Book){
-    await this.http.delete(`${this.url}/book${book.bookId}`).toPromise()
+    await this.http.delete(`${this.url}book${book.bookId}`).toPromise()
   }
 }

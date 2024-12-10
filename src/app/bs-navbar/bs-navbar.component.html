@@ -36,7 +36,7 @@
             <a class="dropdown-item" href="/my/orders">My Orders</a>
             <a *ngIf="user?.isAdmin" class="dropdown-item" href="/admin/admin-orders">Manage Orders</a>
             <hr class="dropdown-divider">
-            <a *ngIf="user?.isAdmin" class="dropdown-item" href="/admin/products">Manage Products</a>
+            <!--a *ngIf="user?.isAdmin" class="dropdown-item" href="/admin/products">Manage Products</a-->
             <a *ngIf="user?.isAdmin" class="dropdown-item" href="/admin/books">Manage Books</a>
             <a class="dropdown-item" href="/manage-account">Manage Account</a>
             <a (click)="logout()" href="/" class="dropdown-item" >Logout</a>
