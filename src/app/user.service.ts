@@ -43,12 +43,7 @@ export class UserService {
   }
 
   getAllUsers(): Observable<User[]> {
-<<<<<<< HEAD
     return this.http.get<User[]>(`${this.baseUrl}user`);
-=======
-    return this.http.get<User[]>(`${this.url}user`);
-
->>>>>>> 6712012554e8e0136d4bf99dee4e031c336c4053
   }
 
   getUser(id: number): Observable<User> {

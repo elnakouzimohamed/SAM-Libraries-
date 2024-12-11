@@ -12,15 +12,17 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
 import { SignupComponent } from './signup/signup.component';
 import { adminGuard } from './guards/admin.guard';
 import { ManageAccountComponent } from './manage-account/manage-account.component';
-import { BooksComponent } from './adminComponents/book-form/book-form.component';
+import { BookFormComponent } from './adminComponents/book-form/book-form.component';
 import { AdminBooksComponent } from './adminComponents/admin-books/admin-books.component';
 import { AuthorService } from './author.service';
 import { AuthorFormComponent } from './adminComponents/author-form/author-form.component';
+import { LibrarianComponent } from './librarian/librarian.component';
+import { ChatBotComponent } from './chat-bot/chat-bot.component';
 
 
 export const routes: Routes = [
           
-      { path: '', component: BooksComponent },  
+      { path: '', component: BookFormComponent },  
       
       { path: 'shopping-cart', component: ShoppingCartComponent },
       { path: 'check-out', component: CheckOutComponent },
@@ -34,11 +36,12 @@ export const routes: Routes = [
       { path: 'admin/products', component: AdminProductsComponent }, 
       {path: 'admin/books/new', component: BookFormComponent},
       {path: 'admin/books', component: AdminBooksComponent},
-      {path: 'admin/books/:id', component: BooksComponent},
+      {path: 'admin/books/:id', component: BookFormComponent},
       {path: 'signup', component: SignupComponent},
+      {path: 'librarian', component: LibrarianComponent},
       {path: 'manage-account', component: ManageAccountComponent},
       {path: 'admin/authors/new', component: AuthorFormComponent},
-      {path: 'librarian', component: LibrarianComponent}
+      {path: 'chat-bot', component: ChatBotComponent}
 
     ];
 

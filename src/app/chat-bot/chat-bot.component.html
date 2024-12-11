@@ -1,0 +1,9 @@
+<div class="chat-bot-container">
+    <textarea [(ngModel)]="prompt" placeholder="Enter your prompt here..."></textarea>
+    
+    <button (click)="generateText();startLoading()">Generate</button>
+    <div *ngIf="generatedText | async as generatedText ">
+    <p>Generated Text:</p>
+    <p>{{generatedText}}</p>
+    </div>
+</div>

@@ -1,8 +1,17 @@
 import { Component } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CategoryService } from '../../category.service';
+import { BookService } from '../../book.service';
+import { AuthorService } from '../../author.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Category } from '../../Category';
+import { Author } from '../../Author';
+import { Book } from '../../Book';
+import { NgModel,FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-book-form',
   standalone: true,
+  imports:[CommonModule, FormsModule],
   templateUrl: './book-form.component.html',
   styleUrls: ['./book-form.component.scss']
 })
@@ -10,9 +19,7 @@ export class BookFormComponent {
   categories!: (Category & { checked: boolean })[];
   authors!: (Author & { checked: boolean })[];
   book!: Book;
-
   id;
-
   constructor(
     private categoryService: CategoryService,
     private authorService: AuthorService,

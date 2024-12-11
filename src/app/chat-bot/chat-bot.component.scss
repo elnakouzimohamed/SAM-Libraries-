@@ -1,0 +1,168 @@
+/* Chat container */
+.chat-bot-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align to the top, instead of bottom */
+  height: 80vh;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Display generated text above the input */
+.generated-text {
+  width: 100%;
+  background-color: #e6e6e6;
+  color: #333;
+  padding: 15px;
+  margin-bottom: 20px; /* Space between generated text and input */
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  word-wrap: break-word;
+  animation: fadeIn 0.5s ease-out;
+  text-align: left;
+}
+
+/* Message bubbles */
+.message {
+  max-width: 80%;
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin: 10px 0;
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* User message bubble */
+.user-message {
+  background-color: #007bff;
+  color: white;
+  align-self: flex-start;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-left: auto;
+  border: 1px solid #0069d9;
+}
+
+/* AI message bubble */
+.ai-message {
+  background-color: #e6e6e6;
+  color: #333;
+  align-self: flex-start;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-right: auto;
+  border: 1px solid #ccc;
+}
+
+/* Typing indicator */
+.typing-indicator {
+  display: none;
+  margin: 10px 0;
+  font-style: italic;
+  color: #777;
+  animation: typingAnimation 1.5s steps(5, end) infinite;
+}
+
+/* Textarea (input field) */
+textarea {
+  width: 100%;
+  height: 50px;
+  padding: 12px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  resize: none;
+  font-size: 16px;
+  margin-top: 20px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+/* Focus effect for textarea */
+textarea:focus {
+  border-color: #007bff;
+}
+
+/* Submit button */
+button {
+  padding: 12px 30px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Button hover effect */
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Button disabled */
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Fade-in animation for messages */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Typing animation for the AI */
+@keyframes typingAnimation {
+  0% {
+    content: '|';
+  }
+  25% {
+    content: '.';
+  }
+  50% {
+    content: '..';
+  }
+  75% {
+    content: '...';
+  }
+  100% {
+    content: '|';
+  }
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .chat-bot-container {
+    padding: 10px;
+  }
+
+  .message {
+    max-width: 90%;
+  }
+
+  textarea {
+    height: 45px;
+  }
+
+  button {
+    width: 100%;
+  }
+}

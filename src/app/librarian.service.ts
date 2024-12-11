@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { librarian } from './librarian';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { User } from './User';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LibrarianService {
+  
   librarianId!:number;
   libs!:librarian[];
   baseUrl = 'http://localhost:8002/';
@@ -25,7 +27,10 @@ export class LibrarianService {
     return this.http.get<librarian[]>(`${this.baseUrl}librarian`);
   }
   getLibrarian(){
-    return ;
-    
+    return ; 
+  }
+  bookService(userId:User,librarianId:librarian){
+       this.http.post<User>(`${this.baseUrl}librarian`,null);
+      // on click of the user, book a service of a librarian
   }
 }

@@ -38,7 +38,7 @@ export class AdminAuthorsComponent {
 
   filter(query: string) {
     this.filteredAuthors = query
-      ? this.filteredAuthors.filter(a => a.name.toLowerCase().includes(query.toLowerCase()))
+      ? this.filteredAuthors.filter(a => a.authorName.toLowerCase().includes(query.toLowerCase()))
       : this.authors;
   }
 }
