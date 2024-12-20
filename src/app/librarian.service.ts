@@ -21,15 +21,19 @@ export class LibrarianService {
   addLibrarian(librarian: librarian): Observable<any> {
     return this.http.post(`${this.baseUrl}/librarians`, librarian);
   }
-  relateUserToLibrarian(userId: number,
-    librarianId: string,
-    meetingDate: string,
+  relateUserToLibrarian(
+    userId: number,
+    librarianId: number,
     meetingStartTime: string,
-    meetingDuration: number ):Observable<any>{
+ ):Observable<any>{
+      const payload = {
+        user_id: userId,
+        librarian_id: librarianId,
+        meeting_start_time: meetingStartTime,
+
+      };
     
-    return this.http.post(`${this.baseUrl}/relate_user_to_librarian`, librarian);
+      return this.http.post(`${this.baseUrl}/relate_user_to_librarian`, payload);
 
   }
-  
-
 }

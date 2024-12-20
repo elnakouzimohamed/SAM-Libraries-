@@ -1,4 +1,4 @@
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule, NgFor, Time } from '@angular/common';
 import { Component, Injectable, NgModule } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +7,9 @@ import { LibrarianService } from '../librarian.service';
 import { Observable,of } from 'rxjs';
 import { User } from '../User';
 import { response } from 'express';
+import { dateTimestampProvider } from 'rxjs/internal/scheduler/dateTimestampProvider';
+import * as moment from 'moment';
+
 @Injectable({
   providedIn:"root",
 })
@@ -22,6 +25,8 @@ export class LibrarianComponent {
   
   isAdmin!:Boolean;
   isLibrarian!:Boolean;
+  currentDate = moment.calendarFormat;
+  
 
   librarians:librarian[]=[];
   newLibrarian: librarian = {
@@ -66,6 +71,21 @@ export class LibrarianComponent {
       }
       
     );
+  }
+  bookNow(){
+    this.librarianService.relateUserToLibrarian(this.currentUser.userId,this.newLibrarian.librarianId,String(this.currentDate
+    )
+
+
+
+    ).subscribe(
+      (response)=>{
+        console.log('User Related to Library');
+        
+
+      }
+    )
+
   }
   
 
