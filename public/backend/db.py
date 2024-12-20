@@ -269,6 +269,20 @@ def add_librarian(db, librarian_data):
         ))
         db.commit()  # Commit the changes
         cursor.close()  # Close the cursor
+def relate_user_to_librarian(db, user_id, librarian_id, meeting_date, meeting_start_time, meeting_duration):
+    """
+    Relates a user to a librarian by inserting a record into the USER_LIBRARIAN table.
+    """
+    with get_db() as db:
+        cursor = db.cursor()
+    
+        sql = """
+            INSERT INTO USER_LIBRARIAN (userId, librarianId, meetingDate, meetingStartTime, meetingDuration)
+            VALUES (%s, %s, %s, %s, %s)
+        """
+        cursor.execute(sql, (user_id, librarian_id, meeting_date, meeting_start_time, meeting_duration))
+        db.commit()
+        cursor.close()       
 
 
 
@@ -282,6 +296,14 @@ def create_authordb(db, user_data):
         ))
         db.commit()
         cursor.close()
+
+def user_librarian():
+    with get_db() as db:
+        cursor = db.cursor()
+        sql = "INSERT INTO USER_LIBRARIAN (USERID, LIBRARIANID) VALUES()" 
+        cursor.execute(sql, (
+            
+        ))        
 
 def create_categorydb(db, category_data):
     with get_db() as db:

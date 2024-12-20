@@ -1,134 +1,134 @@
-<div class="shopping-cart">
-    <h2>Shopping Cart</h2>
-  
-    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-  
-    <!-- Input and Buttons for Adding Items -->
-    <div class="input-container">
-      <input
-        id="bookCopyId"
-        #bookCopyIdInput
-        type="text"
-        class="input-box"
-        placeholder="Enter Book Copy ID"
-      />
-      <button class="btn add-btn" (click)="addToCartForPurchase(bookCopyIdInput.value)">
-        Add for Purchase
-      </button>
-      <button class="btn borrow-btn" (click)="addToCartForBorrowing(bookCopyIdInput.value)">
-        Add for Borrowing
-      </button>
+<div class="shopping-cart container">
+  <h2 class="text-center mb-4">Shopping Cart</h2>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Bootstrap Grid Layout -->
+  <div class="row">
+    <!-- Purchase Cart Table -->
+    <div class="col-md-6">
+      <h3 class="text-primary">Purchase Cart</h3>
+      <table *ngIf="buyCartItems.length >= 0; else emptyPurchaseCart" class="table table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th>Book Copy ID</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of buyCartItems">
+            <td>{{ item.bookCopyId }}</td>
+            <td>
+              <button class="btn btn-danger btn-sm" (click)="removeFromCart(item.bookCopyId)">
+                Remove
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #emptyPurchaseCart>
+        <p class="text-muted">No items purchased.</p>
+      </ng-template>
     </div>
-  
-    <!-- Cart Items Table -->
-    <table *ngIf="cartItems.length > 0; else emptyCart" class="cart-table">
-      <thead>
-        <tr>
-          <th>Book Copy ID</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of cartItems">
-          <td>{{ item.bookCopyId }}</td>
-          <td>
-            <button class="btn remove-btn" (click)="removeFromCart(item.bookCopyId)">
-              Remove
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
 
-  
-    <!-- Empty Cart Message -->
-    <ng-template #emptyCart>
-      <p>Your cart is empty.</p>
-    </ng-template>
-    <button *ngIf="cartItems.length >= 0" (click)="openCheckout()">Proceed to Checkout</button>
-<!-- change to >0 to work properly -->
-    <!-- Checkout Popup -->
-    <div class="popup" *ngIf="showCheckoutPopup">
-      <div class="popup-content">
-        <h3>Checkout</h3>
-        <p>Total: ${{ totalPrice.toFixed(2) }}</p>
-  
-        <!-- Actions -->
-        <div class="actions">
-          <button (click)="checkout()">Confirm Checkout</button>
-          <button (click)="openCreditCardPopup()">Add Credit Card Details</button>
-          <button (click)="closeCheckout()">Cancel</button>
-        </div>
-        <div *ngIf="addedCreditCard; else noCreditCard">
-          <h4>Credit Card Details:</h4>
-          <p>Card Holder Name: {{ addedCreditCard.cardHolderName }}</p>
-          <p>Card Number: {{ addedCreditCard.cardNumber }}</p>
-          <p>Expiry Date: {{ addedCreditCard.expiryDate }}</p>
-        </div>
+    <!-- Borrow Cart Table -->
+    <div class="col-md-6">
+      <h3 class="text-success">Borrow Cart</h3>
+      <table *ngIf="borrowCartItems.length >= 0; else emptyBorrowCart" class="table table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th>Book Copy ID</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of borrowCartItems">
+            <td>{{ item.bookCopyId }}</td>
+            <td>
+              <button class="btn btn-danger btn-sm" (click)="removeFromCart(item.bookCopyId)">
+                Remove
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #emptyBorrowCart>
+        <p class="text-muted">No items borrowed.</p>
+      </ng-template>
+    </div>
+  </div>
 
-        <ng-template #noCreditCard>
-          <p>No credit card added.</p>
-        </ng-template>
+  <!-- Proceed to Checkout Button -->
+  <div class="text-center mt-4">
+    <button *ngIf="buyCartItems.length >= 0 || borrowCartItems.length >= 0" class="btn btn-primary" (click)="openCheckout()">
+      Proceed to Checkout
+    </button>
+  </div>
 
+  <!-- Checkout Popup -->
+  <div class="popup" *ngIf="showCheckoutPopup">
+    <div class="popup-content">
+      <h3>Checkout</h3>
+      <p>Total: ${{ totalPrice.toFixed(2) }}</p>
 
-          <!-- Credit Card Popup -->
-    <div class="popup" *ngIf="showCreditCardPopUp">
-      <div class="popup-content">
-        <h3>Add Credit Card</h3>
-        <form (ngSubmit)="addCreditCard()">
+      <!-- Actions -->
+      <div class="actions">
+        <button class="btn btn-success" (click)="checkout()">Confirm Checkout</button>
+        <button class="btn btn-secondary" (click)="openCreditCardPopup()">Add Credit Card Details</button>
+        <button class="btn btn-danger" (click)="closeCheckout()">Cancel</button>
+      </div>
+
+      <!-- Credit Card Details -->
+      <div *ngIf="addedCreditCard; else noCreditCard">
+        <h4>Credit Card Details:</h4>
+        <p>Card Holder Name: {{ addedCreditCard.cardHolderName }}</p>
+        <p>Card Number: {{ addedCreditCard.cardNumber }}</p>
+        <p>Expiry Date: {{ addedCreditCard.expiryDate }}</p>
+      </div>
+      <ng-template #noCreditCard>
+        <p>No credit card added.</p>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Credit Card Popup -->
+  <div class="popup" *ngIf="showCreditCardPopUp">
+    <div class="popup-content">
+      <h3>Add Credit Card</h3>
+      <form (ngSubmit)="addCreditCard()">
+        <div class="form-group">
           <label for="creditCardId">Credit Card ID:</label>
-          <input
-            type="string"
-            id="creditCardId"
-            [(ngModel)]="creditCard.creditCardId"
-            name="creditCardId"
-            required
-          />
+          <input type="text" id="creditCardId" [(ngModel)]="creditCard.creditCardId" name="creditCardId" class="form-control" required />
+        </div>
 
-        <label for="cardNumber">Card Number:</label>
-        <input
-          type="string"
-          id="cardNumber"
-          [(ngModel)]="creditCard.cardNumber"
-          name="cardNumber"
-          required
-        />
+        <div class="form-group">
+          <label for="cardNumber">Card Number:</label>
+          <input type="text" id="cardNumber" [(ngModel)]="creditCard.cardNumber" name="cardNumber" class="form-control" required />
+        </div>
 
-        <label for="cardHolderName">Card Holder Name:</label>
-        <input
-          type="string"
-          id="cardHolderName"
-          [(ngModel)]="creditCard.cardHolderName"
-          name="cardHolderName"
-          required
-        />
+        <div class="form-group">
+          <label for="cardHolderName">Card Holder Name:</label>
+          <input type="text" id="cardHolderName" [(ngModel)]="creditCard.cardHolderName" name="cardHolderName" class="form-control" required />
+        </div>
 
-        <label for="expiryDate">Expiry Date (YYYY):</label>
-        <input
-          type="string"
-          id="expiryDate"
-          [(ngModel)]="creditCard.expiryDate"
-          name="expiryDate"
-          required
-        />
+        <div class="form-group">
+          <label for="expiryDate">Expiry Date (YYYY-MM):</label>
+          <input type="text" id="expiryDate" [(ngModel)]="creditCard.expiryDate" name="expiryDate" class="form-control" required />
+        </div>
 
-        <label for="cvv">CVV:</label>
-        <input
-          type="string"
-          id="cvv"
-          [(ngModel)]="creditCard.cvv"
-          name="cvv"
-          required
-        />
+        <div class="form-group">
+          <label for="cvv">CVV:</label>
+          <input type="text" id="cvv" [(ngModel)]="creditCard.cvv" name="cvv" class="form-control" required />
+        </div>
 
-        <div class="actions">
-          <button type="submit">Add Card</button>
-          <button type="button" (click)="closeCreditCardPopup()">Cancel</button>
+        <div class="actions mt-3">
+          <button type="submit" class="btn btn-primary">Add Card</button>
+          <button type="button" class="btn btn-secondary" (click)="closeCreditCardPopup()">Cancel</button>
         </div>
       </form>
     </div>
   </div>
-      </div>
-    </div>
-  </div>
-  
+</div>

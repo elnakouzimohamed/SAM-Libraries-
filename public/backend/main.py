@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
-from db import add_librarian, get_all_librarians, get_db,get_all_authors, make_admin, add_to_cart_for_borrowing, add_to_cart_for_purchase, remove_from_cart, delete_credit_card, create_credit_card ,add_book, get_all_book_views, get_all_categories, create_authordb, select_all_users, create_userdb, get_userdb, create_categorydb,update_userdb, delete_userdb, create_bookdb, get_bookdb, update_bookdb, delete_bookdb
+from db import add_librarian, get_all_librarians, get_db,get_all_authors, make_admin, add_to_cart_for_borrowing, add_to_cart_for_purchase, relate_user_to_librarian, remove_from_cart, delete_credit_card, create_credit_card ,add_book, get_all_book_views, get_all_categories, create_authordb, select_all_users, create_userdb, get_userdb, create_categorydb,update_userdb, delete_userdb, create_bookdb, get_bookdb, update_bookdb, delete_bookdb
 from model import User, Book, Author, Category, BookView, CreditCard
 import mysql.connector
 from typing import List
@@ -95,6 +95,13 @@ def read_librarians(db=Depends(get_db)):
 def create_librarian(librarian: dict, db=Depends(get_db)):
     add_librarian(db, librarian)
     return {"message": "Librarian added successfully"}
+@app.post("/relate_user_to_librarian")
+def relate_user_to_librarian_endpoint(
+    user_id: int, librarian_id: str, meeting_date: str, meeting_start_time: str, meeting_duration: int, db=Depends(get_db)
+):
+
+    relate_user_to_librarian(db, user_id, librarian_id, meeting_date, meeting_start_time, meeting_duration)
+    return {"status": "User successfully related to librarian"}
 
 
 @app.get("/category")

@@ -21,7 +21,9 @@ import { User } from '../User';
 export class ShoppingCartComponent {
   user!:User;
   shoppingCart! :ShoppingCart ;
-  cartItems: any[] = [];
+  buyCartItems: any[] = [];
+  borrowCartItems:any[]=[];
+  cartItems = this.buyCartItems.concat(this.borrowCartItems);
   errorMessage: string = '';
   showCheckoutPopup: boolean = false; // Controls the popup visibility
   showCreditCardPopUp:boolean = false;
@@ -122,6 +124,7 @@ export class ShoppingCartComponent {
   // Close the checkout popup
   closeCheckout() {
     this.showCheckoutPopup = false;
+    this.showCreditCardPopUp=false;
   }
 
   checkout() {
