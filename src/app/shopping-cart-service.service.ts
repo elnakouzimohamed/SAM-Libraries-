@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Book } from './Book';
+import { firstValueFrom } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -40,10 +42,16 @@ async removeFromCart(shoppingCartId: number, bookCopyId: string): Promise<any> {
       throw error; // Re-throw error for caller to handle
   }
 }
-getCartItems(userId: string) {
+async getCartItems(userId: string) {
   return this.http.get<any[]>(`${this.url}/cart/${userId}`).toPromise();
 }
+async getAllBorrowedBooks(): Promise<any[]> {
+  try {
+    return await firstValueFrom(this.http.get<any[]>(`${this.url}borrowed_book_copies`));
+  } catch (error) {
+    console.error('Failed to fetch borrowed books:', error);
+    throw error;
+  }
+    
 
-
-
-}
+}}

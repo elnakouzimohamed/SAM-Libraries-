@@ -232,6 +232,22 @@ def get_db():
     finally:
         db.close()
 
+def get_all_borrowed_book_copies(db):
+    with get_db() as db:
+        cursor = db.cursor(dictionary=True)
+
+        # Query to fetch all borrowed book copies
+        cursor.execute("""
+            SELECT bc.bookCopyId, bc.bookId, b.title, b.type, b.publisher, bc.userId, u.firstName, u.lastName
+            FROM BOOKCOPY bc
+            JOIN BOOK b ON bc.bookId = b.bookId
+            LEFT JOIN USERS u ON bc.userId = u.userId
+            WHERE bc.status = 'Borrowed'
+        """)
+        borrowed_copies = cursor.fetchall()
+        cursor.close()
+        return borrowed_copies
+
 
 
 

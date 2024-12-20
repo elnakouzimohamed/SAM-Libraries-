@@ -1,0 +1,36 @@
+
+<div class="container mt-4">
+    <h2>Borrowed Books List</h2>
+  
+    <!-- Error Message -->
+  
+    <!-- Borrowed Books Table -->
+    <div *ngIf="isAdmin; else notAuthorized">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Book Copy ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publisher</th>
+            <th>Borrowed By</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let book of borrowedBooks">
+            <td>{{ book.bookCopyId }}</td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.publisher }}</td>
+            <td>{{ book.borrowerFirstName }} {{ book.borrowerLastName }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Not Authorized -->
+    <ng-template #notAuthorized>
+      <p class="text-danger">You are not authorized to view this list.</p>
+    </ng-template>
+  </div>
+  

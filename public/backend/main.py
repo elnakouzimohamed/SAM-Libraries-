@@ -108,6 +108,12 @@ def relate_user_to_librarian_endpoint(
 def get_all_categories_endpoint(db=Depends(get_db)):
     categories = get_all_categories(db)
     return categories
+@app.get("/borrowed_book_copies")
+def get_all_borrowed_book_copies_endpoint(db=Depends(get_db)):
+    borrowed_copies = get_all_borrowed_book_copies_endpoint(db)
+    if not borrowed_copies:
+        raise HTTPException(status_code=404, detail="No borrowed book copies found")
+    return {"borrowedBookCopies": borrowed_copies}
 
 @app.get("/author")
 def get_all_authors_endpoint(db=Depends(get_db)):

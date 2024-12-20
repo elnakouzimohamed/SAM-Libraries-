@@ -17,6 +17,7 @@ import { AuthorService } from './author.service';
 import { AuthorFormComponent } from './adminComponents/author-form/author-form.component';
 import { LibrarianComponent } from './librarian/librarian.component';
 import { ChatBotComponent } from './chat-bot/chat-bot.component';
+import { BorrowedAdminListComponent } from './borrowed-admin-list/borrowed-admin-list.component';
 
 
 export const routes: Routes = [
@@ -33,6 +34,7 @@ export const routes: Routes = [
       { path: 'admin/products/new', component: ProductFormComponent},
       { path: 'admin/products/:id', component: ProductFormComponent},
       { path: 'admin/products', component: AdminProductsComponent }, 
+      {path: 'borrowed-admin-list', component: BorrowedAdminListComponent},
       {path: 'admin/books/new', component: BookFormComponent},
       {path: 'admin/books', component: AdminBooksComponent},
       {path: 'admin/books/:id', component: BookFormComponent},
