@@ -1,27 +1,29 @@
 <div>
-  <h2>List of Librarians</h2>
-  <table border="1">
+  <h2>Available Librarians</h2>
+
+  <table *ngIf="librarians.length >= 0" border="1">
     <thead>
       <tr>
-        <th>ID</th>
+        <th>Librarian ID</th>
         <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
+
+        <th>Service</th>
+        <th>Hourly Rate</th>
+
       </tr>
-    </thead> 
+    </thead>
     <tbody>
-      <!-- <p *ngIf="(librarians | async)?.length === 0">No librarians found.</p> -->
-      <tr *ngFor="let librarian of librarians | async">
-        <td>{{ librarian.firstName }} +' '+{{ librarian.lastName }}</td>
-        
+      <tr *ngFor="let librarian of librarians">
+        <td>{{ librarian.librarianId }}</td>
+        <td>{{ librarian.firstName+" "+librarian.lastName }}</td>
         <td>{{ librarian.service }}</td>
-        <td>{{ librarian.webexRoom }}</td>
-        <td><button 
-          (click)="selectLibrarian(librarian)" 
-          class="select-button">
-          Select Librarian
-        </button></td>
+        <td>{{ librarian.hourRate | currency }}</td>
+
       </tr>
     </tbody>
   </table>
+
+  <div *ngIf="librarians.length === 0">
+    <p>No librarians available at the moment.</p>
+  </div>
 </div>

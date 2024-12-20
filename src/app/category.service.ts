@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CategoryService {
-  baseUrl= 'http://localhost:8002/';
+  baseUrl= 'http://localhost:8000/';
   constructor(private http: HttpClient) { }
 
   getAllCategories(): Observable<Category[]> {

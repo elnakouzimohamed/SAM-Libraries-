@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class GENAIService {
-  private apiURL = 'http://127.0.0.1:5000/generate'
+  private apiURL = 'http://127.0.0.1:5000/generate/'
   // changed on different computers
 // enable CORS for different ports
   constructor(private http : HttpClient) { 

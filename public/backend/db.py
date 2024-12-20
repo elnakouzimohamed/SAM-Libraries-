@@ -248,6 +248,28 @@ def select_all_books(db):
 
 
 # USER CRUD Operations
+def get_all_librarians(db):
+    with get_db() as db:
+        cursor = db.cursor(dictionary=True)
+        sql = "SELECT * FROM LIBRARIAN"
+        cursor.execute(sql)
+        librarians = cursor.fetchall()  # Fetch all rows
+        cursor.close()  # Close the cursor
+        return librarians  # Return the list of librarians
+def add_librarian(db, librarian_data):
+    with get_db() as db:
+        cursor = db.cursor()
+        sql = """
+            INSERT INTO LIBRARIAN (librarianId, firstName, lastName, service, hourRate, webexRoom)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        cursor.execute(sql, (
+            librarian_data['librarianId'], librarian_data['firstName'],librarian_data['lastName'],
+            librarian_data['service'],librarian_data['hourRate'],librarian_data['webexRoom']
+        ))
+        db.commit()  # Commit the changes
+        cursor.close()  # Close the cursor
+
 
 
 def create_authordb(db, user_data):

@@ -4,5 +4,6 @@ export interface User{
     lastName: string;
     password: string;
     isAdmin: boolean;
+    isLibrarian:boolean;
 
 }

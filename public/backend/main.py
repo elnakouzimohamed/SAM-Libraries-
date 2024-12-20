@@ -1,13 +1,17 @@
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
-from db import get_db,get_all_authors, make_admin, add_to_cart_for_borrowing, add_to_cart_for_purchase, remove_from_cart, delete_credit_card, create_credit_card ,add_book, get_all_book_views, get_all_categories, create_authordb, select_all_users, create_userdb, get_userdb, create_categorydb,update_userdb, delete_userdb, create_bookdb, get_bookdb, update_bookdb, delete_bookdb
+from db import add_librarian, get_all_librarians, get_db,get_all_authors, make_admin, add_to_cart_for_borrowing, add_to_cart_for_purchase, remove_from_cart, delete_credit_card, create_credit_card ,add_book, get_all_book_views, get_all_categories, create_authordb, select_all_users, create_userdb, get_userdb, create_categorydb,update_userdb, delete_userdb, create_bookdb, get_bookdb, update_bookdb, delete_bookdb
 from model import User, Book, Author, Category, BookView, CreditCard
 import mysql.connector
 from typing import List
 
-origins = ['https://localhost:3000']
+
+
+origins = ['https://localhost:4200']
+# i changed this localhost to 4200
 
 app = FastAPI()
+
 
 
 from db import(   get_db)
@@ -19,7 +23,6 @@ app.add_middleware(
     allow_methods = ['*'],
     allow_headers = ['*']
 )
-
 
 # USER Endpoints
 @app.post("/user", response_model=dict)
@@ -84,14 +87,15 @@ def delete_book_endpoint(book_id: str, db=Depends(get_db)):
     delete_bookdb(db, book_id)
     return {"status": "Book deleted successfully"}
 
+@app.get("/librarians", response_model=List[dict])
+def read_librarians(db=Depends(get_db)):
+    librarians = get_all_librarians(db)
+    return librarians
+@app.post("/librarians")
+def create_librarian(librarian: dict, db=Depends(get_db)):
+    add_librarian(db, librarian)
+    return {"message": "Librarian added successfully"}
 
-
-#@app.get("/api/books")
-#def get_users(db=Depends(get_db)):
- #   books = get(db)
-  #  if not books:
-   #     raise HTTPException(status_code=404, detail="No users found")
-    #return books
 
 @app.get("/category")
 def get_all_categories_endpoint(db=Depends(get_db)):

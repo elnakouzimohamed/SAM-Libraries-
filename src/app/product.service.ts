@@ -12,7 +12,7 @@ import { json } from 'stream/consumers';
 export class ProductService {
 id!: number;
 products!: Product[];
-URL = 'http://localhost:8002'
+URL = 'http://localhost:8000/'
   constructor(private http: HttpClient) { }
 
   async addProductService( title: string, price: number, category: string, imageUrl: string){

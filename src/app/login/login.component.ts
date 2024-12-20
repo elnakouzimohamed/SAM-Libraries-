@@ -28,6 +28,11 @@ export class LoginComponent {
   flag3: boolean = false; 
   constructor(private userService: UserService, private router: Router){}
   login() {
+    if (!this.id || !this.password) {
+      this.errorMessage = 'Please enter both ID and password.';
+      this.flag3 = true;
+      return;
+    }
    
     
    this.userService.getUser(this.id).subscribe(
@@ -35,7 +40,9 @@ export class LoginComponent {
         this.user = data;
 
         // Check if the user's password matches the provided password
-        if (this.user?.password === CryptoJS.SHA256(this.password).toString(CryptoJS.enc.Hex)) {
+        const hashedPassword = CryptoJS.SHA256(this.password).toString(CryptoJS.enc.Hex);
+
+        if (this.user?.password === hashedPassword) {
           this.message = "Logged in successfully";
           this.userService.setCurrentUser(this.user); // Save logged-in user to service
           const storage = this.stayLoggedIn ? localStorage : sessionStorage;

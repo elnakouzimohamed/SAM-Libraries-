@@ -42,7 +42,9 @@ export class SignupComponent {
       this.flag1=true;
       this.flag2 = false;
    
-      await this.userService.addUser(this.firstName,this.lastName, CryptoJS.SHA256(this.password1).toString(CryptoJS.enc.Hex),this.interest);
+      await this.userService.addUser(this.firstName,this.lastName, 
+        CryptoJS.SHA256(this.password1).toString(CryptoJS.enc.Hex),
+        this.interest);
       
 
     }
