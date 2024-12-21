@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class GENAIService {
   private apiURL = 'http://127.0.0.1:5000/generate/'
+  // private recommendApiURL = 'http://127.0.0.1:5000/recommend/'; // Endpoint for recommendations
+
   // changed on different computers
 // enable CORS for different ports
   constructor(private http : HttpClient) { 
@@ -17,5 +19,8 @@ export class GENAIService {
     return this.http.post<{generatedText:string}>(this.apiURL,{prompt})
 
   }
+  // recommend(cart: string[]): Observable<{ cart: string[], recommendations: string[] }> {
+  //   return this.http.post<{ cart: string[], recommendations: string[] }>(this.recommendApiURL, { cart });
+  // }
 
 }

@@ -18,6 +18,7 @@ import { AuthorFormComponent } from './adminComponents/author-form/author-form.c
 import { LibrarianComponent } from './librarian/librarian.component';
 import { ChatBotComponent } from './chat-bot/chat-bot.component';
 import { BorrowedAdminListComponent } from './borrowed-admin-list/borrowed-admin-list.component';
+import { RecommendComponent } from './recommend/recommend.component';
 
 
 export const routes: Routes = [
@@ -42,7 +43,8 @@ export const routes: Routes = [
       {path: 'librarian', component: LibrarianComponent},
       {path: 'manage-account', component: ManageAccountComponent},
       {path: 'admin/authors/new', component: AuthorFormComponent},
-      {path: 'chat-bot', component: ChatBotComponent}
+      {path: 'chat-bot', component: ChatBotComponent},
+      // {path: '/recommend', component: RecommendComponent}
 
     ];
 

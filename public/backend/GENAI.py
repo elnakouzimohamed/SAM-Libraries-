@@ -2,6 +2,13 @@ from flask import Flask,request,jsonify
 from flask_cors import CORS
 from asgiref.wsgi import WsgiToAsgi
 import google.generativeai as genai
+
+from chromadb import chromadb,Documents,EmbeddingFunction,Embeddings
+from google.api_core import retry
+import mysql.connector
+
+
+
 app = Flask(__name__)
 CORS(app) 
 # Cross Origin Requests are allowed, so angular can request from different port
@@ -23,4 +30,4 @@ asgi_app = WsgiToAsgi(app)
 # since flask is wsgi-basef framework, we should run the asgi app
 if __name__=="__main__":
     app.run(debug=True)
-    
+

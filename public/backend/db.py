@@ -1,5 +1,11 @@
 import mysql.connector
 from contextlib import contextmanager
+import google.generativeai as genai
+
+from chromadb import chromadb,Documents,EmbeddingFunction,Embeddings
+from google.api_core import retry
+import mysql.connector
+
 
 # Function to create the database if it does not exist
 def create_database():
@@ -192,7 +198,8 @@ def setup_database():
     )
     """
 ]
-
+    
+ 
     
 
     # Execute each SQL command
@@ -587,3 +594,7 @@ def delete_credit_card(db, creditCardId):
         cursor.execute(sql, (creditCardId,))
         db.commit()
         cursor.close()
+
+
+
+

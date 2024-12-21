@@ -12,7 +12,7 @@ import * as CryptoJS from 'crypto-js';;
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [FormsModule, DatePipe, HttpClientModule, NgIf],
+  imports: [FormsModule, HttpClientModule, NgIf],
   templateUrl: './signup.component.html',
   providers: [ UserService],
   styleUrl: './signup.component.scss'

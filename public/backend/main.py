@@ -1,9 +1,14 @@
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
+from flask import jsonify
 from db import add_librarian, get_all_librarians, get_db,get_all_authors, make_admin, add_to_cart_for_borrowing, add_to_cart_for_purchase, relate_user_to_librarian, remove_from_cart, delete_credit_card, create_credit_card ,add_book, get_all_book_views, get_all_categories, create_authordb, select_all_users, create_userdb, get_userdb, create_categorydb,update_userdb, delete_userdb, create_bookdb, get_bookdb, update_bookdb, delete_bookdb
 from model import User, Book, Author, Category, BookView, CreditCard
 import mysql.connector
 from typing import List
+import google.generativeai as genai
+import chromadb
+import mysql.connector
+
 
 
 
@@ -15,6 +20,9 @@ app = FastAPI()
 
 
 from db import(   get_db)
+
+
+# -------------------------------------
 
 app.add_middleware(
     CORSMiddleware,
@@ -166,3 +174,6 @@ def create_credit_card_endpoint(creditCard: CreditCard, db=Depends(get_db)):
 def delete_credit_card_endpoint(creditCardId: str, db=Depends(get_db)):
     delete_credit_card(db, creditCardId)
     return {"status": f"Credit card {creditCardId} deleted successfully"}
+
+
+
