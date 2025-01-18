@@ -1,6 +1,6 @@
 # SAM Libraries  
 
-**SAM Libraries** is an innovative internet-based bookstore designed to redefine how users interact with books. Built using **Angular**, **FastAPI**, and **MySQL**, the platform offers a seamless and advanced experience for book lovers.
+**SAM Libraries** is an innovative internet-based book store designed to redefine how users interact with books. Built using **Angular**, **FastAPI**, and **MySQL**, the platform offers a seamless and advanced experience for book lovers.
 
 ---
 
