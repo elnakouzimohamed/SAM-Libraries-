@@ -1,27 +1,43 @@
-# Shop
+# SAM Libraries  
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.3.
+**SAM Libraries** is an innovative internet-based bookstore designed to redefine how users interact with books. Built using **Angular**, **FastAPI**, and **MySQL**, the platform offers a seamless and advanced experience for book lovers.
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Features  
 
-## Code scaffolding
+1. **Book Purchase and Borrowing**:  
+   - Users can easily purchase or borrow hard copies of books.  
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+2. **High-Quality Book Details**:  
+   - Each book includes a high-quality image and a voice summary for a more engaging experience.  
 
-## Build
+3. **AI Assistance**:  
+   - Powered by **Gemini AI**, users can ask questions and get instant answers.  
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+4. **Librarian Services**:  
+   - Users can book personalized sessions with a librarian for expert help.  
 
-## Running unit tests
+5. **Advanced Filtering**:  
+   - Books can belong to multiple categories, making it easy to filter and discover interests effortlessly.  
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+6. **Role-Based Accounts**:  
+   - **Admins** can easily add or remove books.  
+   - **Regular users** can explore, borrow, and purchase books seamlessly.  
 
-## Running end-to-end tests
+---
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Video Demo  
 
-## Further help
+Check out the **SAM Libraries** demo on YouTube to see the platform in action:  
+[Watch the Video Demo](https://youtu.be/quRoGfz4D-o?si=fUYdzunSC3-Vrxmq)  
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+## Tech Stack  
+
+- **Frontend**: Angular  
+- **Backend**: FastAPI  
+- **Database**: MySQL  
+
+---
